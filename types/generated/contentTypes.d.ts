@@ -505,16 +505,9 @@ export interface ApiCategoryCategory extends Struct.CollectionTypeSchema {
   options: {
     draftAndPublish: true;
   };
-  pluginOptions: {
-    i18n: {
-      localized: true;
-    };
-  };
   attributes: {
-    landing_pages: Schema.Attribute.Relation<
-      'manyToMany',
-      'api::landing-page.landing-page'
-    >;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    reviews: Schema.Attribute.Relation<'manyToMany', 'api::review.review'>;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
@@ -522,11 +515,12 @@ export interface ApiCategoryCategory extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    locale: Schema.Attribute.String;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
       'api::category.category'
-    >;
+    > &
+      Schema.Attribute.Private;
   };
 }
 
@@ -544,10 +538,6 @@ export interface ApiLandingPageLandingPage extends Struct.CollectionTypeSchema {
     title: Schema.Attribute.String;
     description: Schema.Attribute.Text;
     slug: Schema.Attribute.UID<'title'>;
-    categories: Schema.Attribute.Relation<
-      'manyToMany',
-      'api::category.category'
-    >;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
@@ -598,6 +588,7 @@ export interface ApiReviewReview extends Struct.CollectionTypeSchema {
     singularName: 'review';
     pluralName: 'reviews';
     displayName: 'review';
+    description: '';
   };
   options: {
     draftAndPublish: true;
@@ -616,6 +607,10 @@ export interface ApiReviewReview extends Struct.CollectionTypeSchema {
         number
       >;
     body: Schema.Attribute.Blocks & Schema.Attribute.Required;
+    categories: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::category.category'
+    >;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;

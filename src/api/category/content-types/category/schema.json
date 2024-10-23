@@ -9,17 +9,17 @@
   "options": {
     "draftAndPublish": true
   },
-  "pluginOptions": {
-    "i18n": {
-      "localized": true
-    }
-  },
+  "pluginOptions": {},
   "attributes": {
-    "landing_pages": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "reviews": {
       "type": "relation",
       "relation": "manyToMany",
-      "target": "api::landing-page.landing-page",
-      "inversedBy": "categories"
+      "target": "api::review.review",
+      "mappedBy": "categories"
     }
   }
 }
